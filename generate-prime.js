@@ -2,10 +2,10 @@
 
 // check if number is prime by trial division approach
 function isPrime(n) {
+  // handles edge case: 2 and 3 are prime numbers
+  if (n <= 3) return n > 1;
   // num is not prime if it is divisible by 2, 3 or smaller than one
   if (n <= 1 || n % 2 === 0 || n % 3 === 0) return false;
-  // handles edge case: 2 and 3 are prime numbers
-  if (n <= 3) return true;
 
   // check for primes
   let i = 5;
@@ -53,6 +53,7 @@ const readline = require("readline").createInterface({
   input: process.stdin,
   output: process.stdout,
 });
+const { performance } = require("perf_hooks");
 
 readline.question("Enter the starting number: ", (start) => {
   readline.question("Enter the ending number: ", (end) => {
@@ -76,10 +77,24 @@ readline.question("Enter the starting number: ", (start) => {
         let primes;
         switch (parseInt(method)) {
           case 1:
+            startTime = performance.now();
             primes = trialDivision(start, end);
+            endTime = performance.now();
+            console.log(
+              `Trial Division method time elapse: ${(
+                endTime - startTime
+              ).toFixed(2)} milliseconds`
+            );
             break;
           case 2:
+            startTime = performance.now();
             primes = sievePrime(start, end);
+            endTime = performance.now();
+            console.log(
+              `Sieve of Eratosthenes method time elapse: ${(
+                endTime - startTime
+              ).toFixed(2)} milliseconds`
+            );
             break;
           default:
             console.log("Invalid input. Pick method 1 or method 2.");
@@ -94,3 +109,5 @@ readline.question("Enter the starting number: ", (start) => {
     );
   });
 });
+
+module.exports = { trialDivision, sievePrime };
